@@ -15,7 +15,7 @@
                     <p><strong>Actors:</strong> {{ $movie->actors }}</p>
                     <p><strong>Synopsis:</strong></p>
                     <p>{{ $movie->synopsis }}</p>
-                    <a href="/" class="btn btn-secondary mt-3">Back to Homepage</a>
+                    <a href="/" class="btn btn-success mt-3">Back to Homepage</a>
                 </div>
             </div>
         </div>
