@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Illuminate\Http\RedirectResponse;
 
 class AuthController extends Controller
 {
-    public function loginform()
+    public function loginForm()
     {
         return view('login');
     }
@@ -20,27 +20,22 @@ class AuthController extends Controller
                 'email' => 'required|email',
                 'password' => 'required'
             ]
-            );
-            if(Auth::attempt($credentials)){
-                $request->session()->regenerate();
-                return redirect()->intended('/');
-            }
+        );
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect('/')->with('success', 'Login Successfully, Welcome ' . Auth::user()->name);
+        }
 
-            return back()->withErrors([
-                'email'=> 'Email not Found'
-            ])->onlyInput('email');
+        return back()->withErrors([
+            'email' => 'Email not found'
+        ])->onlyInput('email');
     }
 
     public function logout(Request $request): RedirectResponse
-{
-    Auth::logout();
-
-    $request->session()->invalidate();
-
-    $request->session()->regenerateToken();
-
-    return redirect('/');
-}
-
-
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
+    }
 }
